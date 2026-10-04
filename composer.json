@@ -1,0 +1,47 @@
+{
+    "name": "omnibase/health",
+    "type": "symfony-bundle",
+    "description": "The health regime on omnibase/office: a practice (multi-professional, nursing, physiotherapy...), its practitioners read from the RPPS, patients and their dependants, home care requests, fees, results sent through the encrypted vault, medical secrecy in who may read what, the emergency banner, GDPR export.",
+    "keywords": ["symfony", "omnibase", "health", "maison de santé", "cabinet infirmier", "rpps", "teleconsultation", "patients"],
+    "homepage": "https://github.com/glitchr-studio/omnibase-health",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Marco Meyer",
+            "email": "marco.meyer@glitchr.io"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "doctrine/orm": "^2.15|^3.0",
+        "glitchr/omnibase": "3.0.*-dev",
+        "omnibase/office": "dev-main",
+        "symfony/config": "^6.4|^7.0|^8.0",
+        "symfony/console": "^6.4|^7.0|^8.0",
+        "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+        "symfony/form": "^6.4|^7.0|^8.0",
+        "symfony/http-kernel": "^6.4|^7.0|^8.0",
+        "symfony/security-bundle": "^6.4|^7.0|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5|^11.0|^12.0"
+    },
+    "suggest": {
+        "omnibase/admin": "The back office: patients, home care requests, the access log, the widgets",
+        "omnibase/mailbox": "Patients write to the secretariat or to their practitioner (desks), attachments in the vault",
+        "glitchr/omnistate": "With omnistate/annuaire-sante: the team read from the RPPS",
+        "drenso/symfony-oidc-bundle": "FranceConnect for patients, Pro Santé Connect for practitioners; the IdentityLink entity keeps who is who by sub"
+    },
+    "autoload": {
+        "psr-4": {
+            "Base\\Health\\": "./src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Base\\Health\\Tests\\": "./tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

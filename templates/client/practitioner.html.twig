@@ -1,0 +1,77 @@
+{#
+ # A practitioner's page: who, what profession and agreement with the health
+ # insurance, what can be booked and the next free slots, their fees - and
+ # the JSON-LD a search engine reads.
+ #}
+{% extends office_layout() %}
+
+{% set practitioner = health_practitioner(member) %}
+{% set types = health_types(member) %}
+{% set fees = practitioner ? health_fees(practitioner) : [] %}
+
+{% block title %}{{ member.displayName }}{% endblock %}
+{% block description %}{{ member.title }}{% endblock %}
+
+{% block content %}
+<article class="of-page of-member">
+    <p class="of-back"><a href="{{ path('office_team') }}">← {{ 'team.title'|trans({}, 'health') }}</a></p>
+    <header class="of-member-head">
+        {% if member.portrait %}
+        <img class="of-portrait of-portrait-large" src="{{ member.portrait|picture(480) }}" alt="" width="160" height="160">
+        {% else %}
+        <span class="of-portrait of-portrait-large of-portrait-initials" aria-hidden="true">{{ member.initials }}</span>
+        {% endif %}
+        <div>
+            <h1>{{ member.displayName }}</h1>
+            <p class="of-lead">{{ member.title }}{% if practitioner and practitioner.specialty and practitioner.specialty != member.title %} — {{ practitioner.specialty }}{% endif %}</p>
+            {% if practitioner %}
+            <ul class="he-facts">
+                {% if practitioner.sector %}<li>{{ practitioner.sector.label|trans({}, 'health') }}</li>{% endif %}
+                <li>{{ (practitioner.carteVitale ? 'practitioner.vitale_yes' : 'practitioner.vitale_no')|trans({}, 'health') }}</li>
+                {% if practitioner.thirdPartyPayment %}<li>{{ 'practitioner.third_party'|trans({}, 'health') }}</li>{% endif %}
+                <li>{{ (practitioner.acceptsNewPatients ? 'practitioner.new_patients_yes' : 'practitioner.new_patients_no')|trans({}, 'health') }}</li>
+                {% if member.languages|length > 1 %}<li>{{ 'team.languages'|trans({}, 'office') }} : {{ member.languages|map(l => l|language_name)|join(', ') }}</li>{% endif %}
+                {% if practitioner.rpps %}<li class="of-meta">RPPS {{ practitioner.rpps }}</li>{% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if member.biography %}<div class="of-prose">{{ member.biography|nl2br }}</div>{% endif %}
+
+    {% if member.bookable and types %}
+    <section aria-labelledby="he-book">
+        <h2 id="he-book">{{ 'booking.cta'|trans({}, 'office') }}</h2>
+        <ul class="of-choices">
+            {% for type in types %}
+            <li>
+                <a class="of-choice" href="{{ path('office_booking_slots', {slug: member.slug, type: type.slug}) }}">
+                    <span><strong>{{ type.name }}</strong><br><span class="of-meta">{{ type.channel.label|trans({}, 'office') }} · {{ 'booking.minutes'|trans({minutes: type.duration}, 'office') }}{% if type.price %} · {{ type.price }}{% endif %}
+                    {% if not type.request %}{% set next = office_next_slots(member, type, 1) %}{% if next %} · {{ 'practitioner.next'|trans({date: next[0].start|format_datetime(pattern="EEEE d MMMM 'à' HH'h'mm", locale=app.request.locale, timezone=office_timezone())}, 'health') }}{% endif %}{% endif %}</span></span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if fees %}
+    <section aria-labelledby="he-fees">
+        <h2 id="he-fees">{{ 'fees.title'|trans({}, 'health') }}</h2>
+        {% include '@Health/client/_fees.html.twig' with {fees: fees} only %}
+        <p class="of-meta"><a href="{{ path('health_fees') }}">{{ 'fees.all'|trans({}, 'health') }}</a></p>
+    </section>
+    {% endif %}
+
+    <script type="application/ld+json">{{ {
+        '@context': 'https://schema.org',
+        '@type': practitioner and practitioner.physician ? 'Physician' : 'MedicalBusiness',
+        'name': member.displayName,
+        'medicalSpecialty': practitioner ? (practitioner.specialty ?? practitioner.profession) : member.title,
+        'url': url('office_member', {slug: member.slug}),
+        'isAcceptingNewPatients': practitioner ? practitioner.acceptsNewPatients : null,
+        'address': office ? office.toSchema() : null,
+        'telephone': office ? office.phone : null
+    }|filter(v => v is not null)|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))|raw }}</script>
+</article>
+{% endblock %}

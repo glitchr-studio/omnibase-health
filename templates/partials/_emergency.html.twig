@@ -1,0 +1,9 @@
+{# The permanent banner: in an emergency, call - not this site. Included by the site's layout on every page. #}
+{% set numbers = health_emergency() %}
+<aside class="he-emergency" role="note" aria-label="{{ 'emergency.label'|trans({}, 'health') }}">
+    <strong>{{ 'emergency.banner'|trans({}, 'health') }}</strong>
+    <a href="tel:{{ numbers.samu }}">{{ numbers.samu }}</a>
+    <span aria-hidden="true">/</span>
+    <a href="tel:{{ numbers.europe }}">{{ numbers.europe }}</a>
+    <span class="he-emergency-more">— {{ 'emergency.pharmacy'|trans({}, 'health') }} <a href="tel:{{ numbers.pharmacy }}">{{ numbers.pharmacy }}</a> · <a href="{{ path('health_emergencies') }}">{{ 'emergency.more'|trans({}, 'health') }}</a></span>
+</aside>

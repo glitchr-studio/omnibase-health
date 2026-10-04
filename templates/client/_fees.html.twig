@@ -1,0 +1,9 @@
+{# A table of fees: what for, how much, what the health insurance refunds on. #}
+<table class="he-fees">
+    <thead><tr><th scope="col">{{ 'fees.act'|trans({}, 'health') }}</th><th scope="col">{{ 'fees.amount'|trans({}, 'health') }}</th><th scope="col">{{ 'fees.reimbursement'|trans({}, 'health') }}</th></tr></thead>
+    <tbody>
+        {% for fee in fees %}
+        <tr><th scope="row">{{ fee.label }}</th><td>{{ fee.amount }}</td><td>{{ fee.reimbursement ?? '—' }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+{# Care at home: where the practice goes, then the request (signed in) - the address is checked against the areas before anything is kept. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'home_care.title'|trans({}, 'health') }}{% endblock %}
+{% block description %}{{ 'home_care.lead'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page">
+    <header class="of-page-head">
+        <h1>{{ 'home_care.title'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'home_care.lead'|trans({}, 'health') }}</p>
+    </header>
+
+    <div class="of-columns">
+        <section aria-labelledby="he-areas">
+            <h2 id="he-areas">{{ 'home_care.areas'|trans({}, 'health') }}</h2>
+            {% for area in areas %}
+            <p><strong>{{ area.name }}</strong><br>{{ area.towns|join(', ') }}{% if area.postalCodes %}<br><span class="of-meta">{{ area.postalCodes|join(' · ') }}</span>{% endif %}</p>
+            {% else %}
+            <p class="of-empty">{{ 'home_care.no_area'|trans({}, 'health') }}</p>
+            {% endfor %}
+            <p class="of-notice">{{ 'home_care.prescription_note'|trans({}, 'health') }}</p>
+        </section>
+
+        <section aria-labelledby="he-request">
+            <h2 id="he-request">{{ 'home_care.request'|trans({}, 'health') }}</h2>
+            {% if not app.user %}
+            <p>{{ 'home_care.sign_in_lead'|trans({}, 'health') }}</p>
+            <p><a class="of-button" href="{{ path('security_login') }}">{{ 'home_care.sign_in'|trans({}, 'health') }}</a></p>
+            {% else %}
+            <form method="post" enctype="multipart/form-data" class="of-form">
+                <input type="hidden" name="_token" value="{{ csrf_token('health_home_care') }}">
+                {% if dependents %}
+                <div class="of-field"><label for="he-for">{{ 'booking.for'|trans({}, 'office') }}</label>
+                    <select id="he-for" name="dependent"><option value="">{{ 'booking.for_me'|trans({}, 'office') }}</option>{% for dependent in dependents %}<option value="{{ dependent.id }}"{{ values.dependent|default('') == dependent.id ? ' selected' }}>{{ dependent }}</option>{% endfor %}</select></div>
+                {% endif %}
+                <div class="of-field"><label for="he-care">{{ 'home_care.care'|trans({}, 'health') }}</label>
+                    <select id="he-care" name="careType" required>{% for type in care_types %}<option value="{{ type }}"{{ values.careType|default('') == type ? ' selected' }}>{{ ('care_type.' ~ type)|trans({}, 'health') }}</option>{% endfor %}</select></div>
+                <div class="of-field"><label for="he-frequency">{{ 'home_care.frequency'|trans({}, 'health') }}</label>
+                    <select id="he-frequency" name="frequency" required>{% for frequency in frequencies %}<option value="{{ frequency.value }}"{{ values.frequency|default('') == frequency.value ? ' selected' }}>{{ frequency.label|trans({}, 'health') }}</option>{% endfor %}</select></div>
+                <div class="of-field"><label for="he-start">{{ 'home_care.start'|trans({}, 'health') }}</label><input id="he-start" name="startDate" type="date" required min="{{ 'today'|date('Y-m-d') }}" value="{{ values.startDate|default('tomorrow'|date('Y-m-d')) }}"></div>
+                <div class="of-field"><label for="he-end">{{ 'home_care.end'|trans({}, 'health') }}</label><input id="he-end" name="endDate" type="date" min="{{ 'today'|date('Y-m-d') }}" value="{{ values.endDate|default('') }}" aria-describedby="he-end-help"><p id="he-end-help" class="of-help">{{ 'home_care.end_help'|trans({}, 'health') }}</p></div>
+                <div class="of-field"><label for="he-time">{{ 'home_care.time'|trans({}, 'health') }}</label>
+                    <select id="he-time" name="preferredTime"><option value="">{{ 'home_care.time_any'|trans({}, 'health') }}</option><option value="morning"{{ values.preferredTime|default('') == 'morning' ? ' selected' }}>{{ 'home_care.time_morning'|trans({}, 'health') }}</option><option value="afternoon"{{ values.preferredTime|default('') == 'afternoon' ? ' selected' }}>{{ 'home_care.time_afternoon'|trans({}, 'health') }}</option></select></div>
+                <fieldset class="he-fieldset">
+                    <legend>{{ 'home_care.address'|trans({}, 'health') }}</legend>
+                    <div class="of-field"><label for="he-street">{{ 'profile.street'|trans({}, 'health') }}</label><input id="he-street" name="street" type="text" autocomplete="street-address" required value="{{ values.street ?? (profile ? profile.street : '') }}"></div>
+                    <div class="of-field"><label for="he-postal">{{ 'profile.postal_code'|trans({}, 'health') }}</label><input id="he-postal" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" required value="{{ values.postalCode ?? (profile ? profile.postalCode : '') }}"></div>
+                    <div class="of-field"><label for="he-city">{{ 'profile.city'|trans({}, 'health') }}</label><input id="he-city" name="city" type="text" autocomplete="address-level2" required value="{{ values.city ?? (profile ? profile.city : '') }}"></div>
+                </fieldset>
+                <div class="of-field"><label for="he-phone">{{ 'profile.phone'|trans({}, 'health') }}</label><input id="he-phone" name="phone" type="tel" autocomplete="tel" required value="{{ values.phone ?? (profile ? profile.phone : '') }}"></div>
+                <div class="of-field"><label for="he-prescription">{{ 'home_care.prescription'|trans({}, 'health') }}</label><input id="he-prescription" name="prescription" type="file" accept="application/pdf,image/*" aria-describedby="he-prescription-help"><p id="he-prescription-help" class="of-help">{{ 'home_care.prescription_help'|trans({}, 'health') }}</p></div>
+                <div class="of-field"><label for="he-notes">{{ 'home_care.notes'|trans({}, 'health') }}</label><textarea id="he-notes" name="notes" rows="3" maxlength="2000" aria-describedby="he-notes-help">{{ values.notes|default('') }}</textarea><p id="he-notes-help" class="of-help">{{ 'booking.reason_help'|trans({}, 'office') }}</p></div>
+                <button type="submit" class="of-button">{{ 'home_care.submit'|trans({}, 'health') }}</button>
+            </form>
+            {% endif %}
+        </section>
+    </div>
+</section>
+{% endblock %}

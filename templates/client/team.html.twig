@@ -1,0 +1,26 @@
+{# The team as health professionals: grouped by rubric, each with their profession and whether they take new patients. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'team.title'|trans({}, 'health') }}{% endblock %}
+{% block description %}{{ 'team.lead'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-team">
+    <header class="of-page-head">
+        <h1>{{ 'team.title'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'team.lead'|trans({}, 'health') }}</p>
+    </header>
+    {% for category, list in groups %}
+    <section class="of-team-group" aria-labelledby="he-group-{{ loop.index }}">
+        {% if category %}<h2 id="he-group-{{ loop.index }}">{{ category }}</h2>{% endif %}
+        <ul class="of-cards">
+            {% for member in list %}
+            <li>{% include '@Office/client/_member_card.html.twig' with {member: member} only %}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% else %}
+    <p class="of-empty">{{ 'team.empty'|trans({}, 'office') }}</p>
+    {% endfor %}
+</section>
+{% endblock %}

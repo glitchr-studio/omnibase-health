@@ -1,0 +1,37 @@
+{# The patient's profile: who, where, their "médecin traitant", and their say on sharing within the care team. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'space.nav.profile'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-space">
+    <header class="of-page-head">
+        {% include '@Health/client/space/_nav.html.twig' %}
+        <h1>{{ 'space.nav.profile'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'profile.lead'|trans({}, 'health') }}</p>
+    </header>
+    <form method="post" class="of-form of-narrow">
+        <input type="hidden" name="_token" value="{{ csrf_token('health_profile') }}">
+        <div class="of-field"><label for="he-given">{{ 'profile.given_names'|trans({}, 'health') }}</label><input id="he-given" name="givenNames" type="text" autocomplete="given-name" required value="{{ profile.givenNames }}"></div>
+        <div class="of-field"><label for="he-family">{{ 'profile.family_name'|trans({}, 'health') }}</label><input id="he-family" name="familyName" type="text" autocomplete="family-name" required value="{{ profile.familyName }}"></div>
+        <div class="of-field"><label for="he-birth">{{ 'profile.birth_date'|trans({}, 'health') }}</label><input id="he-birth" name="birthDate" type="date" autocomplete="bday" value="{{ profile.birthDate ? profile.birthDate|date('Y-m-d') }}"></div>
+        <div class="of-field"><label for="he-phone">{{ 'profile.phone'|trans({}, 'health') }}</label><input id="he-phone" name="phone" type="tel" autocomplete="tel" value="{{ profile.phone }}"></div>
+        <fieldset class="he-fieldset">
+            <legend>{{ 'profile.address'|trans({}, 'health') }}</legend>
+            <div class="of-field"><label for="he-street">{{ 'profile.street'|trans({}, 'health') }}</label><input id="he-street" name="street" type="text" autocomplete="street-address" value="{{ profile.street }}"></div>
+            <div class="of-field"><label for="he-postal">{{ 'profile.postal_code'|trans({}, 'health') }}</label><input id="he-postal" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" value="{{ profile.postalCode }}"></div>
+            <div class="of-field"><label for="he-city">{{ 'profile.city'|trans({}, 'health') }}</label><input id="he-city" name="city" type="text" autocomplete="address-level2" value="{{ profile.city }}"></div>
+        </fieldset>
+        {% if physicians %}
+        <div class="of-field"><label for="he-physician">{{ 'profile.referring'|trans({}, 'health') }}</label>
+            <select id="he-physician" name="referringPhysician"><option value="">{{ 'profile.referring_none'|trans({}, 'health') }}</option>{% for physician in physicians %}<option value="{{ physician.id }}"{{ profile.referringPhysician and profile.referringPhysician.id == physician.id ? ' selected' }}>{{ physician }}</option>{% endfor %}</select></div>
+        {% endif %}
+        <div class="he-check">
+            <input id="he-opposition" name="sharingOpposition" type="checkbox" value="1"{{ profile.sharingOpposition ? ' checked' }} aria-describedby="he-opposition-help">
+            <label for="he-opposition">{{ 'profile.opposition'|trans({}, 'health') }}</label>
+            <p id="he-opposition-help" class="of-help">{{ 'profile.opposition_help'|trans({}, 'health') }}</p>
+        </div>
+        <button type="submit" class="of-button">{{ 'profile.save'|trans({}, 'health') }}</button>
+    </form>
+</section>
+{% endblock %}

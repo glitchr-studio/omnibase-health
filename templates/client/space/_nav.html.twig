@@ -1,0 +1,13 @@
+{# The patient space's menu, on each of its pages (the office's too: office.templates.space_nav). #}
+{% set route = app.request.attributes.get('_route') %}
+<nav class="he-space-nav" aria-label="{{ 'space.title'|trans({}, 'health') }}">
+    <ul>
+        <li><a href="{{ path('health_space') }}"{{ route == 'health_space' ? ' aria-current="page"' }}>{{ 'space.nav.home'|trans({}, 'health') }}</a></li>
+        <li><a href="{{ path('office_space_appointments') }}"{{ route == 'office_space_appointments' ? ' aria-current="page"' }}>{{ 'space.nav.appointments'|trans({}, 'health') }}</a></li>
+        <li><a href="{{ path('office_space_documents') }}"{{ route == 'office_space_documents' ? ' aria-current="page"' }}>{{ 'space.nav.documents'|trans({}, 'health') }}{% set unread_documents = office_unread_documents(app.user) %}{% if unread_documents %} <span class="of-badge">{{ unread_documents }}</span>{% endif %}</a></li>
+        {% if mailbox_unread_count is defined %}<li><a href="{{ path('mailbox_index') }}"{{ route starts with 'mailbox_' ? ' aria-current="page"' }}>{{ 'space.nav.messages'|trans({}, 'health') }}{% set unread_messages = mailbox_unread_count() %}{% if unread_messages %} <span class="of-badge">{{ unread_messages }}</span>{% endif %}</a></li>{% endif %}
+        <li><a href="{{ path('health_space_dependents') }}"{{ route == 'health_space_dependents' ? ' aria-current="page"' }}>{{ 'space.nav.dependents'|trans({}, 'health') }}</a></li>
+        <li><a href="{{ path('health_space_profile') }}"{{ route == 'health_space_profile' ? ' aria-current="page"' }}>{{ 'space.nav.profile'|trans({}, 'health') }}</a></li>
+        <li><a href="{{ path('health_space_data') }}"{{ route == 'health_space_data' ? ' aria-current="page"' }}>{{ 'space.nav.data'|trans({}, 'health') }}</a></li>
+    </ul>
+</nav>

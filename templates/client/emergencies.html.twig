@@ -1,0 +1,24 @@
+{# Emergencies: who to call, and what the practice does out of hours. #}
+{% extends office_layout() %}
+
+{% set numbers = health_emergency() %}
+{% block title %}{{ 'emergency.title'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-narrow">
+    <header class="of-page-head">
+        <h1>{{ 'emergency.title'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'emergency.lead'|trans({}, 'health') }}</p>
+    </header>
+    <ul class="he-numbers">
+        <li><a href="tel:{{ numbers.samu }}"><strong>{{ numbers.samu }}</strong> <span>{{ 'emergency.samu'|trans({}, 'health') }}</span></a></li>
+        <li><a href="tel:{{ numbers.europe }}"><strong>{{ numbers.europe }}</strong> <span>{{ 'emergency.europe'|trans({}, 'health') }}</span></a></li>
+        <li><a href="tel:{{ numbers.deaf }}"><strong>{{ numbers.deaf }}</strong> <span>{{ 'emergency.deaf'|trans({}, 'health') }}</span></a></li>
+        <li><a href="tel:{{ numbers.oncall|replace({' ': ''}) }}"><strong>{{ numbers.oncall }}</strong> <span>{{ 'emergency.oncall'|trans({}, 'health') }}</span></a></li>
+        <li><a href="tel:{{ numbers.pharmacy }}"><strong>{{ numbers.pharmacy }}</strong> <span>{{ 'emergency.pharmacy_long'|trans({}, 'health') }}</span></a></li>
+    </ul>
+    {% if practice and practice.emergencyInstructions %}<h2>{{ 'emergency.practice'|trans({}, 'health') }}</h2><p>{{ practice.emergencyInstructions|nl2br }}</p>{% endif %}
+    {% if practice and practice.outOfHours %}<h2>{{ 'emergency.out_of_hours'|trans({}, 'health') }}</h2><p>{{ practice.outOfHours|nl2br }}</p>{% endif %}
+    <p class="of-warning">{{ 'emergency.not_here'|trans({}, 'health') }}</p>
+</section>
+{% endblock %}

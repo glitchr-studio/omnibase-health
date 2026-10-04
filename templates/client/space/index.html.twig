@@ -1,0 +1,56 @@
+{# The patient's space: what comes next, what is new, who follows them. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'space.title'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-space">
+    <header class="of-page-head">
+        {% include '@Health/client/space/_nav.html.twig' %}
+        <h1>{{ 'space.hello'|trans({name: profile.givenNames ?: app.user}, 'health') }}</h1>
+    </header>
+
+    {% if not profile.familyName %}
+    <p class="of-notice">{{ 'space.complete_profile'|trans({}, 'health') }} <a href="{{ path('health_space_profile') }}">{{ 'space.nav.profile'|trans({}, 'health') }}</a></p>
+    {% endif %}
+
+    <div class="of-columns">
+        <section aria-labelledby="he-next">
+            <h2 id="he-next">{{ 'space.next'|trans({}, 'health') }}</h2>
+            {% if upcoming %}
+            <ul class="of-appointments">{% for appointment in upcoming %}{% include '@Office/client/space/_appointment.html.twig' with {appointment: appointment, actions: true} %}{% endfor %}</ul>
+            {% else %}<p class="of-empty">{{ 'space.no_upcoming'|trans({}, 'office') }}</p>{% endif %}
+            <p class="of-actions"><a class="of-button" href="{{ path('office_booking') }}">{{ 'booking.cta'|trans({}, 'office') }}</a> <a class="of-button of-button-quiet" href="{{ path('health_home_care') }}">{{ 'home_care.cta'|trans({}, 'health') }}</a></p>
+        </section>
+
+        <section aria-labelledby="he-docs">
+            <h2 id="he-docs">{{ 'space.nav.documents'|trans({}, 'health') }}{% if unread %} <span class="of-badge">{{ 'space.unread'|trans({count: unread}, 'health') }}</span>{% endif %}</h2>
+            {% include '@Office/client/space/_documents.html.twig' with {documents: documents} %}
+            <p class="of-actions"><a class="of-button of-button-quiet" href="{{ path('office_space_documents') }}">{{ 'space.all_documents'|trans({}, 'health') }}</a>{% if mailbox_unread_count is defined %} <a class="of-button of-button-quiet" href="{{ path('mailbox_compose') }}">{{ 'space.write'|trans({}, 'health') }}</a>{% endif %}</p>
+        </section>
+    </div>
+
+    {% if requests %}
+    <section aria-labelledby="he-care">
+        <h2 id="he-care">{{ 'home_care.title'|trans({}, 'health') }}</h2>
+        <ul class="of-appointments">
+            {% for request in requests %}
+            <li class="of-appointment">
+                <div><strong>{{ ('care_type.' ~ request.careType)|trans({}, 'health') }}</strong> · {{ request.frequency.label|trans({}, 'health') }}{% if request.dependent %} · {{ request.dependent }}{% endif %}<br>
+                <span class="of-meta">{{ 'home_care.from'|trans({date: request.startDate|format_datetime('long', 'none', locale=app.request.locale)}, 'health') }}{% if request.endDate %} {{ 'home_care.until'|trans({date: request.endDate|format_datetime('long', 'none', locale=app.request.locale)}, 'health') }}{% endif %} · {{ request.address }} · <span class="of-status">{{ request.status.label|trans({}, 'health') }}</span>{% if request.assignedTo %} — {{ request.assignedTo.displayName }}{% endif %}</span></div>
+                {% if request.pending %}<form method="post" action="{{ path('health_space_care_cancel', {id: request.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('health_care_' ~ request.id) }}"><button type="submit" class="of-button of-button-small of-button-danger">{{ 'booking.cancel.short'|trans({}, 'office') }}</button></form>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if team %}
+    <section aria-labelledby="he-team">
+        <h2 id="he-team">{{ 'space.team'|trans({}, 'health') }}</h2>
+        <p class="of-meta">{{ 'space.team_help'|trans({}, 'health') }}</p>
+        <ul class="he-inline">{% for member in team %}<li><a href="{{ path('office_member', {slug: member.slug}) }}">{{ member.displayName }}</a>{% if member.title %} <span class="of-meta">— {{ member.title }}</span>{% endif %}</li>{% endfor %}</ul>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}

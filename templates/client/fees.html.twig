@@ -1,0 +1,23 @@
+{# The fees, posted as the law asks: each practitioner's, and the practice's. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'fees.title'|trans({}, 'health') }}{% endblock %}
+{% block description %}{{ 'fees.lead'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page">
+    <header class="of-page-head">
+        <h1>{{ 'fees.title'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'fees.lead'|trans({}, 'health') }}</p>
+    </header>
+    {% for name, fees in groups %}
+    <section aria-labelledby="he-fee-{{ loop.index }}">
+        <h2 id="he-fee-{{ loop.index }}">{{ name ?: 'fees.practice'|trans({}, 'health') }}</h2>
+        {% include '@Health/client/_fees.html.twig' with {fees: fees} only %}
+    </section>
+    {% else %}
+    <p class="of-empty">{{ 'fees.none'|trans({}, 'health') }}</p>
+    {% endfor %}
+    <p class="of-notice">{{ 'fees.notice'|trans({}, 'health') }}</p>
+</section>
+{% endblock %}

@@ -1,0 +1,294 @@
+practice_type:
+    msp: Maison de santé pluriprofessionnelle
+    health_centre: Centre de santé
+    medical: Cabinet médical
+    nursing: Cabinet infirmier
+    physiotherapy: Cabinet de kinésithérapie
+    midwifery: Cabinet de sage-femme
+    paramedical: Cabinet paramédical
+
+sector:
+    sector_1: Conventionné secteur 1
+    sector_2: Conventionné secteur 2
+    optam: Conventionné secteur 2, adhérent OPTAM
+    not_contracted: Non conventionné
+    contracted: Conventionné
+
+relation:
+    child: Enfant
+    parent: Parent
+    spouse: Conjoint
+    other: Autre proche
+
+frequency:
+    once: Une seule fois
+    daily: Tous les jours
+    every_other_day: Un jour sur deux
+    weekly: Une fois par semaine
+
+care_status:
+    pending: En attente de réponse
+    accepted: Acceptée
+    refused: Refusée
+    cancelled: Annulée
+
+care_type:
+    injection: Injection
+    dressing: Pansement
+    blood_test: Prise de sang
+    hygiene: Aide à la toilette
+    infusion: Perfusion
+    monitoring: Surveillance (tension, glycémie…)
+    medication: Préparation et prise des médicaments
+    other: Autre soin
+
+security:
+    two_factor_required: La double authentification est obligatoire pour les comptes de l’équipe. Activez-la ci-dessous pour continuer.
+
+contact:
+    notice: Ce formulaire n’est pas confidentiel. N’y écrivez <strong>aucune information médicale</strong> — pour cela, utilisez la messagerie de votre espace patient. En cas d’urgence, appelez le 15.
+
+emergency:
+    label: Numéros d’urgence
+    banner: 'Urgence :'
+    pharmacy: pharmacie de garde
+    more: que faire ?
+    title: En cas d’urgence
+    lead: Ce site ne traite aucune urgence. Appelez.
+    samu: 'SAMU — urgence médicale'
+    europe: Numéro d’urgence européen
+    deaf: 'Par SMS, pour les personnes sourdes ou malentendantes'
+    oncall: 'Médecin de garde, soirs et week-ends'
+    pharmacy_long: Pharmacie de garde
+    practice: Au cabinet
+    out_of_hours: En dehors des horaires
+    not_here: Ni la messagerie ni le formulaire de contact ne sont lus en continu. Pour une urgence, appelez le 15 ou le 112.
+
+team:
+    title: L’équipe soignante
+    lead: Les professionnels de santé qui vous reçoivent, au cabinet ou chez vous.
+
+practitioner:
+    vitale_yes: Carte Vitale acceptée
+    vitale_no: Carte Vitale non acceptée
+    third_party: Tiers payant
+    new_patients_yes: Prend de nouveaux patients
+    new_patients_no: Ne prend pas de nouveaux patients
+    next: 'prochain créneau {date}'
+
+fees:
+    title: Tarifs
+    lead: Les honoraires pratiqués et la base de remboursement de l’Assurance maladie.
+    all: Tous les tarifs du cabinet
+    practice: Au cabinet
+    act: Acte
+    amount: Tarif
+    reimbursement: Base de remboursement
+    none: Les tarifs seront affichés ici prochainement.
+    notice: Votre professionnel de santé vous informe avant tout acte non remboursé. Seuls les tarifs en vigueur au jour du soin font foi.
+
+home_care:
+    cta: Demander des soins à domicile
+    title: Soins à domicile
+    lead: Sur prescription médicale, les infirmières se déplacent chez vous.
+    areas: Où nous nous déplaçons
+    no_area: Les zones de tournée seront indiquées ici prochainement.
+    prescription_note: Une ordonnance est nécessaire. Vous pouvez la joindre à votre demande ou la remettre lors du premier passage.
+    request: Faire une demande
+    sign_in_lead: La demande se fait depuis votre espace patient, pour que votre adresse et votre ordonnance restent protégées.
+    sign_in: Me connecter
+    care: Soin demandé
+    frequency: Fréquence
+    start: À partir du
+    end: 'Jusqu’au'
+    end_help: Laissez vide pour un seul passage.
+    time: Moment préféré
+    time_any: Indifférent
+    time_morning: Le matin
+    time_afternoon: L’après-midi
+    address: Adresse des soins
+    prescription: Ordonnance (facultatif)
+    prescription_help: 'PDF ou photo, 20 Mo au plus. Conservée chiffrée.'
+    prescription_title: Ordonnance — soins à domicile
+    notes: Précisions (facultatif)
+    submit: Envoyer la demande
+    from: 'à partir du {date}'
+    until: 'jusqu’au {date}'
+    flash:
+        sent: Votre demande est envoyée. Le cabinet vous répond rapidement.
+        cancelled: La demande est annulée.
+        prescription_failed: La demande est enregistrée, mais l’ordonnance n’a pas pu être jointe. Remettez-la lors du premier passage.
+    error:
+        incomplete: 'Indiquez l’adresse complète : rue, code postal, commune.'
+        outside_area: 'Nous ne nous déplaçons pas à {city}. Votre demande n’a pas été enregistrée — appelez-nous, nous vous orienterons.'
+        dates: Vérifiez les dates.
+        decided: Cette demande a déjà reçu une réponse.
+        no_type: '{member} ne propose pas de soin à domicile.'
+        unavailable: Les demandes en ligne sont momentanément indisponibles. Rien n’a été enregistré — appelez-nous.
+
+teleconsultation:
+    title: Consultation en visio
+    lead: Un rendez-vous de suivi sans vous déplacer, depuis votre téléphone ou votre ordinateur.
+    who: Avec qui
+    none: Aucun professionnel ne propose de visio pour le moment.
+    how: Comment ça marche
+    step_1: Prenez rendez-vous, comme pour une consultation au cabinet.
+    step_2: 'Dix minutes avant l’heure, ouvrez votre espace patient : le bouton « Rejoindre la visio » apparaît.'
+    step_3: Autorisez la caméra et le micro. Vous patientez en salle d’attente, votre soignant vous rejoint.
+    privacy: 'L’image et le son vont directement de votre appareil à celui de votre soignant, chiffrés ; rien n’est enregistré et rien ne passe par un prestataire extérieur.'
+    not_referenced: 'Cet outil n’est pas référencé par l’Agence du numérique en santé : les échanges en visio proposés ici sont des rendez-vous de suivi et ne donnent pas lieu à une téléconsultation remboursée.'
+
+profile:
+    lead: Ces informations servent au cabinet pour vous recevoir. Aucune donnée médicale n’est demandée ici.
+    given_names: Prénom
+    family_name: Nom
+    birth_date: Date de naissance
+    phone: Téléphone
+    address: Adresse
+    street: Rue
+    postal_code: Code postal
+    city: Commune
+    referring: Mon médecin traitant dans ce cabinet
+    referring_none: Aucun, ou hors du cabinet
+    opposition: Je m’oppose au partage de mes documents au sein de l’équipe de soins
+    opposition_help: Par défaut, les soignants du cabinet qui vous suivent peuvent lire vos documents. Si vous cochez cette case, seuls leur auteur et vous y aurez accès.
+    save: Enregistrer
+
+space:
+    title: Mon espace
+    hello: 'Bonjour {name}'
+    complete_profile: Complétez votre profil pour que le cabinet puisse vous recevoir.
+    next: Mes prochains rendez-vous
+    unread: '{count, plural, one {# nouveau} other {# nouveaux}}'
+    all_documents: Tous mes documents
+    write: Écrire au cabinet
+    team: Mon équipe de soins
+    team_help: Les soignants du cabinet qui vous suivent. Ils peuvent lire vos documents, sauf opposition de votre part.
+    nav:
+        home: Accueil
+        appointments: Rendez-vous
+        documents: Documents
+        messages: Messages
+        dependents: Mes proches
+        profile: Mon profil
+        data: Mes données
+    profile:
+        saved: Votre profil est enregistré.
+    dependents:
+        lead: 'Les personnes pour qui vous prenez rendez-vous : un enfant, un parent que vous accompagnez.'
+        none: Aucun proche enregistré.
+        add: Ajouter un proche
+        relation: Lien
+        submit: Ajouter
+        remove: Retirer
+        added: '{name} est ajouté à vos proches.'
+        removed: Le proche est retiré.
+    data:
+        lead: Ce que le cabinet conserve à votre sujet sur ce site, et vos droits.
+        export: Récupérer mes données
+        export_help: 'Vos informations, vos rendez-vous, vos demandes et la liste de vos documents ; l’archive contient aussi les documents eux-mêmes.'
+        export_json: Télécharger mes données (JSON)
+        export_zip: Télécharger l’archive avec mes documents (ZIP)
+        log: Qui a consulté mes documents
+        log_help: Chaque dépôt, affichage et téléchargement est enregistré.
+        retention: Durées de conservation
+        retention_text: 'Les rendez-vous sont conservés {appointments} mois après leur date, le journal des accès {logs} mois. Un document retiré ou expiré est détruit le mois suivant.'
+        erase: Effacer mes données
+        erase_help: 'Votre profil et vos proches sont effacés, vos rendez-vous à venir annulés, vos documents déposés détruits et ceux reçus retirés. Ce que la loi impose de conserver l’est sans votre identité, jusqu’au terme prévu. Votre dossier médical tenu par vos soignants n’est pas concerné : adressez-vous à eux.'
+        erase_confirm: 'Pour confirmer, écrivez EFFACER'
+        erase_submit: Effacer mes données
+        erase_confirm_missing: 'Écrivez EFFACER pour confirmer.'
+        erased: Vos données sont effacées.
+
+compliance:
+    mailbox_key: Chiffrement de la messagerie
+    mailbox_encrypt_advice: 'Les messages ne sont pas chiffrés : mailbox.encrypt doit être activé.'
+    mailbox_key_advice: 'Aucune clé MAILBOX_KEY utilisable : aucun message ne peut être envoyé. bin/console secrets:set MAILBOX_KEY.'
+    staff_2fa: Double authentification de l’équipe
+    staff_2fa_off: 'L’obligation est désactivée (health.staff_two_factor).'
+    staff_2fa_advice: '{count, plural, one {Un compte de l’équipe n’a pas encore de second facteur} other {# comptes de l’équipe n’ont pas encore de second facteur}} : ils y sont renvoyés à leur prochaine connexion.'
+    fees: Affichage des honoraires
+    fees_advice: 'Aucun tarif affiché pour : {names}.'
+    emergency: Consignes hors horaires
+    emergency_advice: 'La page Urgences ne dit pas quoi faire en dehors des horaires (Cabinet › Hors horaires).'
+    hds: Hébergeur certifié HDS
+    hds_advice: 'Les données de santé doivent être hébergées chez un hébergeur certifié HDS : indiquez-le dans Réglages (il figure aux mentions légales). Ne mettez pas le site en production sans cela.'
+    teleconsultation: Visio et téléconsultation
+    teleconsultation_advice: 'La visio intégrée est chiffrée de bout en bout mais n’est pas référencée par l’ANS : pas de téléconsultation remboursable par ce canal. Le site le dit aux patients.'
+
+settings:
+    hds: 'Hébergeur certifié HDS (nom et numéro de certificat)'
+    annuaire_sante_key: 'Annuaire Santé — clé API (ESANTE-API-KEY)'
+
+admin:
+    field:
+        office: Lieu
+        type: Type de cabinet
+        finess: FINESS
+        presentation: Présentation
+        emergency: Consignes d’urgence
+        out_of_hours: Hors horaires
+        new_patients: Nouveaux patients
+        teleconsultation: Visio
+        home_care: Soins à domicile
+        member: Membre de l’équipe
+        profession: Profession
+        profession_code: Code profession
+        specialty: Spécialité
+        sector: Conventionnement
+        mssante: Adresse MSSanté
+        carte_vitale: Carte Vitale
+        third_party: Tiers payant
+        family_name: Nom
+        given_names: Prénom
+        birth_date: Date de naissance
+        account: Compte
+        phone: Téléphone
+        street: Adresse
+        postal_code: Code postal
+        city: Commune
+        referring_physician: Médecin traitant
+        sharing_opposition: Opposition au partage
+        created_at: Reçue le
+        patient: Patient
+        care_type: Soin
+        start_date: À partir du
+        end_date: 'Jusqu’au'
+        status: État
+        assigned_to: Confiée à
+        fee_label: Acte
+        amount: Tarif
+        position: Ordre
+        practitioner: Praticien
+        category: Rubrique
+        reimbursement: Base de remboursement
+    help:
+        profession_code: 'Nomenclature de l’Annuaire Santé : 10 médecin, 60 infirmier, 70 masseur-kinésithérapeute, 50 sage-femme.'
+        sharing_opposition: Choisie par le patient dans son espace.
+        amount: 'Tel qu’il s’affiche : « 30 € ».'
+        fee_practitioner: 'Aucun : un tarif du cabinet.'
+    registry:
+        action: Lire l’Annuaire Santé
+        no_rpps: 'Aucun numéro RPPS sur la fiche de ce membre (Équipe › Numéro au registre).'
+        unknown: L’Annuaire Santé ne connaît pas ce numéro RPPS.
+        read: 'Annuaire Santé lu : {name} — {profession}.'
+        unavailable: 'L’Annuaire Santé n’a pas répondu : {error}'
+    home_care:
+        title: Soins à domicile demandés
+        lead: 'Acceptée, une demande devient une série de passages dans l’agenda.'
+        none: Aucune demande en attente.
+        visits: '{count, plural, one {# passage} other {# passages}}'
+        prescription: Ordonnance déposée
+        member: Confier à
+        first: Premier passage
+        accept: Accepter
+        refuse: Refuser
+        answer: '{count, plural, one {Répondre à la demande} other {Répondre aux # demandes}}'
+        flash:
+            accepted: '{count, plural, one {# passage inscrit} other {# passages inscrits}} à l’agenda de {member}.'
+            refused: La demande est refusée.
+    inbox:
+        waiting: '{count, plural, one {message au secrétariat à traiter} other {messages au secrétariat à traiter}}'
+        unread: '{count, plural, one {conversation non lue} other {conversations non lues}}'
+        open: Ouvrir la messagerie
+        unavailable: La messagerie n’est pas installée.

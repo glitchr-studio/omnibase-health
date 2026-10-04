@@ -1,0 +1,38 @@
+{# Video consultations: who offers them, how it works, and what it is not (not a reimbursable teleconsultation unless the practice's tool is listed). #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'teleconsultation.title'|trans({}, 'health') }}{% endblock %}
+{% block description %}{{ 'teleconsultation.lead'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page">
+    <header class="of-page-head">
+        <h1>{{ 'teleconsultation.title'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'teleconsultation.lead'|trans({}, 'health') }}</p>
+    </header>
+    <div class="of-columns">
+        <section aria-labelledby="he-tc-who">
+            <h2 id="he-tc-who">{{ 'teleconsultation.who'|trans({}, 'health') }}</h2>
+            {% if offers %}
+            <ul class="of-choices">
+                {% for offer in offers %}
+                <li><a class="of-choice" href="{{ path('office_booking_slots', {slug: offer.member.slug, type: offer.type.slug}) }}"><span><strong>{{ offer.member.displayName }}</strong><br><span class="of-meta">{{ offer.type.name }} · {{ 'booking.minutes'|trans({minutes: offer.type.duration}, 'office') }}{% if offer.type.price %} · {{ offer.type.price }}{% endif %}</span></span></a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="of-empty">{{ 'teleconsultation.none'|trans({}, 'health') }}</p>
+            {% endif %}
+        </section>
+        <section aria-labelledby="he-tc-how">
+            <h2 id="he-tc-how">{{ 'teleconsultation.how'|trans({}, 'health') }}</h2>
+            <ol class="he-steps">
+                <li>{{ 'teleconsultation.step_1'|trans({}, 'health') }}</li>
+                <li>{{ 'teleconsultation.step_2'|trans({}, 'health') }}</li>
+                <li>{{ 'teleconsultation.step_3'|trans({}, 'health') }}</li>
+            </ol>
+            <p>{{ 'teleconsultation.privacy'|trans({}, 'health') }}</p>
+            {% if not health_teleconsultation_referenced() %}<p class="of-notice">{{ 'teleconsultation.not_referenced'|trans({}, 'health') }}</p>{% endif %}
+        </section>
+    </div>
+</section>
+{% endblock %}

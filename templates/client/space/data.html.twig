@@ -1,0 +1,49 @@
+{# One's data: who looked at one's documents, the export, the erasure. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'space.nav.data'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-space">
+    <header class="of-page-head">
+        {% include '@Health/client/space/_nav.html.twig' %}
+        <h1>{{ 'space.nav.data'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'space.data.lead'|trans({}, 'health') }}</p>
+    </header>
+
+    <section aria-labelledby="he-export">
+        <h2 id="he-export">{{ 'space.data.export'|trans({}, 'health') }}</h2>
+        <p>{{ 'space.data.export_help'|trans({}, 'health') }}</p>
+        <div class="of-actions">
+            <form method="post" action="{{ path('health_space_export', {format: 'json'}) }}" data-transparent="false"><input type="hidden" name="_token" value="{{ csrf_token('health_data') }}"><button type="submit" class="of-button of-button-quiet">{{ 'space.data.export_json'|trans({}, 'health') }}</button></form>
+            <form method="post" action="{{ path('health_space_export', {format: 'zip'}) }}" data-transparent="false"><input type="hidden" name="_token" value="{{ csrf_token('health_data') }}"><button type="submit" class="of-button of-button-quiet">{{ 'space.data.export_zip'|trans({}, 'health') }}</button></form>
+        </div>
+    </section>
+
+    <section aria-labelledby="he-log">
+        <h2 id="he-log">{{ 'space.data.log'|trans({}, 'health') }}</h2>
+        <p class="of-meta">{{ 'space.data.log_help'|trans({}, 'health') }}</p>
+        {% if logs %}
+        <table class="he-fees">
+            <thead><tr><th scope="col">{{ 'admin.log.when'|trans({}, 'office') }}</th><th scope="col">{{ 'admin.log.who'|trans({}, 'office') }}</th><th scope="col">{{ 'admin.log.what'|trans({}, 'office') }}</th><th scope="col">{{ 'admin.log.document'|trans({}, 'office') }}</th></tr></thead>
+            <tbody>{% for log in logs %}<tr><td>{{ log.createdAt|format_datetime('short', 'short', locale=app.request.locale, timezone=office_timezone()) }}</td><td>{{ log.user and log.user.id == app.user.id ? 'visio.you'|trans({}, 'office') : (log.userLabel ?? '—') }}</td><td>{{ log.action.label|trans({}, 'office') }}</td><td>#{{ log.documentId }}</td></tr>{% endfor %}</tbody>
+        </table>
+        {% else %}<p class="of-empty">{{ 'admin.log.none'|trans({}, 'office') }}</p>{% endif %}
+    </section>
+
+    <section aria-labelledby="he-keep">
+        <h2 id="he-keep">{{ 'space.data.retention'|trans({}, 'health') }}</h2>
+        <p>{{ 'space.data.retention_text'|trans({appointments: retention.appointments, logs: retention.access_logs}, 'health') }}</p>
+    </section>
+
+    <section aria-labelledby="he-erase">
+        <h2 id="he-erase">{{ 'space.data.erase'|trans({}, 'health') }}</h2>
+        <p>{{ 'space.data.erase_help'|trans({}, 'health') }}</p>
+        <form method="post" action="{{ path('health_space_erase') }}" class="of-form of-narrow">
+            <input type="hidden" name="_token" value="{{ csrf_token('health_data') }}">
+            <div class="of-field"><label for="he-confirm">{{ 'space.data.erase_confirm'|trans({}, 'health') }}</label><input id="he-confirm" name="confirm" type="text" autocomplete="off" required></div>
+            <button type="submit" class="of-button of-button-danger">{{ 'space.data.erase_submit'|trans({}, 'health') }}</button>
+        </form>
+    </section>
+</section>
+{% endblock %}

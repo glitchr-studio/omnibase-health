@@ -1,0 +1,11 @@
+{# Home care requests waiting (Base\Health\Admin\Widget\HomeCareWidgetType). #}
+<div class="analytics-card card office-widget">
+    <div class="analytics-card-header"><h2 class="analytics-card-title">{{ widget.label|trans({}, 'admin') }}</h2></div>
+    <div class="office-widget-body">
+        {% if requests %}
+        <ul>{% for request in requests %}<li><b>{{ ('care_type.' ~ request.careType)|trans({}, 'health') }}</b> · {{ request.city }}<br><small>{{ 'home_care.from'|trans({date: request.startDate|format_datetime('medium', 'none')}, 'health') }} · {{ request.frequency.label|trans({}, 'health') }}</small></li>{% endfor %}</ul>
+        <p><a class="btn btn-primary btn-sm" href="{{ path('health_admin_home_care') }}">{{ 'admin.home_care.answer'|trans({count: count}, 'health') }}</a></p>
+        {% else %}<p class="office-widget-empty">{{ 'admin.home_care.none'|trans({}, 'health') }}</p>{% endif %}
+    </div>
+</div>
+{% include '@Office/admin/widget/_style.html.twig' %}

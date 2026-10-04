@@ -1,0 +1,42 @@
+{# The home care requests waiting (Base\Health\Controller\Admin\HomeCareController): accept - who goes, the first visit - or refuse. #}
+{% extends '@Admin/layout.html.twig' %}
+
+{% block page_title %}{{ 'admin.home_care.title'|trans({}, 'health') }}{% endblock %}
+
+{% block content_header %}
+<div class="admin-header">
+    <span class="admin-header-icon"><i class="fa-solid fa-house-medical"></i></span>
+    <div class="admin-header-titles">
+        <h1>{{ 'admin.home_care.title'|trans({}, 'health') }}</h1>
+        <div class="admin-header-subtitle">{{ 'admin.home_care.lead'|trans({}, 'health') }}</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include '@Office/admin/widget/_style.html.twig' %}
+<div class="oh" style="display:grid;gap:1rem;max-width:64rem">
+    {% for request in requests %}
+    {% set profile = health_profile(request.patient) %}
+    <div class="card" style="padding:1rem 1.1rem">
+        <h2 style="font-size:1rem;margin:0 0 .4rem">{{ profile and profile.familyName ? profile.fullName : request.patient }}{% if request.dependent %} — {{ 'booking.for'|trans({}, 'office')|lower }} {{ request.dependent }}{% endif %}</h2>
+        <p style="margin:0 0 .6rem;font-size:.9rem">
+            <strong>{{ ('care_type.' ~ request.careType)|trans({}, 'health') }}</strong> · {{ request.frequency.label|trans({}, 'health') }} · {{ 'admin.home_care.visits'|trans({count: request.visitCount}, 'health') }}<br>
+            {{ 'home_care.from'|trans({date: request.startDate|format_datetime('full', 'none')}, 'health') }}{% if request.endDate %} {{ 'home_care.until'|trans({date: request.endDate|format_datetime('full', 'none')}, 'health') }}{% endif %}{% if request.preferredTime %} · {{ ('home_care.time_' ~ request.preferredTime)|trans({}, 'health') }}{% endif %}<br>
+            {{ request.address }}{% if request.area %} <span style="opacity:.7">({{ request.area.name }})</span>{% endif %}{% if request.phone %} · <a href="tel:{{ request.phone }}">{{ request.phone }}</a>{% endif %}
+            {% if request.prescription %}<br><a href="{{ path('office_admin_documents', {client: request.patient.id}) }}">{{ 'admin.home_care.prescription'|trans({}, 'health') }}</a>{% endif %}
+        </p>
+        <form method="post" action="{{ path('health_admin_home_care_decide', {id: request.id, action: 'accept'}) }}" style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:end">
+            <input type="hidden" name="_token" value="{{ csrf_token('health-home-care-' ~ request.id) }}">
+            <label style="display:grid;gap:.2rem;font-size:.8rem;font-weight:700">{{ 'admin.home_care.member'|trans({}, 'health') }}<select name="member" class="form-select" required>{% for member in members %}<option value="{{ member.id }}">{{ member.displayName }}</option>{% endfor %}</select></label>
+            <label style="display:grid;gap:.2rem;font-size:.8rem;font-weight:700">{{ 'admin.home_care.first'|trans({}, 'health') }}<input type="date" name="date" value="{{ request.startDate|date('Y-m-d') }}" class="form-control" required></label>
+            <label style="display:grid;gap:.2rem;font-size:.8rem;font-weight:700">{{ 'admin.agenda.time'|trans({}, 'office') }}<input type="time" name="time" step="300" value="{{ request.preferredTime == 'afternoon' ? '14:00' : '08:00' }}" class="form-control" required></label>
+            <button class="btn btn-primary" type="submit">{{ 'admin.home_care.accept'|trans({}, 'health') }}</button>
+            <button class="btn" type="submit" formaction="{{ path('health_admin_home_care_decide', {id: request.id, action: 'refuse'}) }}" formnovalidate>{{ 'admin.home_care.refuse'|trans({}, 'health') }}</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="card" style="padding:1rem 1.1rem;opacity:.75">{{ 'admin.home_care.none'|trans({}, 'health') }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

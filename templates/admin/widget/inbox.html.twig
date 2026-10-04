@@ -1,0 +1,14 @@
+{# Messages waiting (Base\Health\Admin\Widget\InboxWidgetType): counts only. #}
+<div class="analytics-card card office-widget">
+    <div class="analytics-card-header"><h2 class="analytics-card-title">{{ widget.label|trans({}, 'admin') }}</h2></div>
+    <div class="office-widget-body">
+        {% if available %}
+        <ul>
+            <li><b>{{ waiting }}</b> {{ 'admin.inbox.waiting'|trans({count: waiting}, 'health') }}</li>
+            <li><b>{{ unread }}</b> {{ 'admin.inbox.unread'|trans({count: unread}, 'health') }}</li>
+        </ul>
+        <p><a class="btn btn-sm" href="{{ path('mailbox_index', {box: waiting ? 'desk' : 'inbox'}) }}" target="_top">{{ 'admin.inbox.open'|trans({}, 'health') }}</a></p>
+        {% else %}<p class="office-widget-empty">{{ 'admin.inbox.unavailable'|trans({}, 'health') }}</p>{% endif %}
+    </div>
+</div>
+{% include '@Office/admin/widget/_style.html.twig' %}

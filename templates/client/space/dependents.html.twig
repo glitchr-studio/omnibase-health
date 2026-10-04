@@ -1,0 +1,34 @@
+{# The patient's dependants: those they book for. #}
+{% extends office_layout() %}
+
+{% block title %}{{ 'space.nav.dependents'|trans({}, 'health') }}{% endblock %}
+
+{% block content %}
+<section class="of-page of-space">
+    <header class="of-page-head">
+        {% include '@Health/client/space/_nav.html.twig' %}
+        <h1>{{ 'space.nav.dependents'|trans({}, 'health') }}</h1>
+        <p class="of-lead">{{ 'space.dependents.lead'|trans({}, 'health') }}</p>
+    </header>
+    {% if dependents %}
+    <ul class="of-appointments">
+        {% for dependent in dependents %}
+        <li class="of-appointment">
+            <div><strong>{{ dependent }}</strong><br><span class="of-meta">{{ dependent.relation.label|trans({}, 'health') }}{% if dependent.birthDate %} · {{ dependent.birthDate|format_datetime('long', 'none', locale=app.request.locale) }}{% endif %}</span></div>
+            <form method="post"><input type="hidden" name="_token" value="{{ csrf_token('health_dependents') }}"><input type="hidden" name="remove" value="{{ dependent.id }}"><button type="submit" class="of-button of-button-small of-button-quiet">{{ 'space.dependents.remove'|trans({}, 'health') }}<span class="of-sr"> {{ dependent }}</span></button></form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}<p class="of-empty">{{ 'space.dependents.none'|trans({}, 'health') }}</p>{% endif %}
+
+    <h2>{{ 'space.dependents.add'|trans({}, 'health') }}</h2>
+    <form method="post" class="of-form of-narrow">
+        <input type="hidden" name="_token" value="{{ csrf_token('health_dependents') }}">
+        <div class="of-field"><label for="he-dep-given">{{ 'profile.given_names'|trans({}, 'health') }}</label><input id="he-dep-given" name="givenName" type="text" required></div>
+        <div class="of-field"><label for="he-dep-family">{{ 'profile.family_name'|trans({}, 'health') }}</label><input id="he-dep-family" name="familyName" type="text" required></div>
+        <div class="of-field"><label for="he-dep-birth">{{ 'profile.birth_date'|trans({}, 'health') }}</label><input id="he-dep-birth" name="birthDate" type="date"></div>
+        <div class="of-field"><label for="he-dep-relation">{{ 'space.dependents.relation'|trans({}, 'health') }}</label><select id="he-dep-relation" name="relation">{% for relation in relations %}<option value="{{ relation.value }}">{{ relation.label|trans({}, 'health') }}</option>{% endfor %}</select></div>
+        <button type="submit" class="of-button">{{ 'space.dependents.submit'|trans({}, 'health') }}</button>
+    </form>
+</section>
+{% endblock %}
