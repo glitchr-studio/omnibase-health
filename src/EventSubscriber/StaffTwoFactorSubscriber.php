@@ -18,8 +18,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * account without one is sent to its security settings on every page it
  * asks for, until it has one - no "later" for them.
  *
- * omnibase's own rule (SecurityPolicy) is for everyone or no one; this one
- * is for a role, patients are left free to choose.
+ * omnibase's own setting (SecurityPolicy) is for everyone or no one; this
+ * one is for a role, patients are left free to choose.
+ *
+ * Since omnibase 3.x of 2026-10-04 the core has the same rule for roles:
+ *
+ *     base:
+ *         security:
+ *             two_factor: { required_roles: [ROLE_STAFF], postpone: false }
+ *
+ * This subscriber stays until the applications have moved to it, because the
+ * two do not behave alike: the core sends the account to its enrolment page
+ * (/settings/security-required, user_settings_enrolment), this one to
+ * /settings; and health.staff_two_factor may be an environment variable read
+ * at run time (HEALTH_STAFF_TWO_FACTOR), where required_roles is fixed when
+ * the container is built. An application that sets required_roles turns
+ * this one off (health.staff_two_factor: false) so that only one of the two
+ * redirects. See docs/secrecy.md.
  */
 final class StaffTwoFactorSubscriber
 {

@@ -42,6 +42,26 @@ fail closed without their key.
 `health.staff_two_factor`: a staff account (`ROLE_STAFF`) with no second factor is redirected to
 `/settings` from every page until it has one. Patients choose.
 
+glitchr/omnibase has the same rule for roles since its 3.x of 2026-10-04
+(`base.security.two_factor.required_roles`, see its `docs/20-architecture/account-security.md`), and
+this bundle's own subscriber (`StaffTwoFactorSubscriber`) is to go once the applications use it:
+
+```yaml
+# config/packages/base.yaml
+base:
+    security:
+        two_factor: { required_roles: [ROLE_STAFF], postpone: false }
+# config/packages/health.yaml
+health:
+    staff_two_factor: false        # the core's rule alone redirects
+```
+
+Two differences to know before moving. The core sends the account to its enrolment page
+(`/settings/security-required`), not to `/settings`: a test that asserts the redirect changes with it.
+And `required_roles` is fixed when the container is built, while `health.staff_two_factor` may be an
+environment variable read at run time (`'%env(bool:HEALTH_STAFF_TWO_FACTOR)%'`): a site that lifts the
+obligation in one environment does it with `when@dev` / `when@test` instead.
+
 ## The video
 
 End to end between the two browsers, the relay one's own. It is **not** listed by the ANS: no
