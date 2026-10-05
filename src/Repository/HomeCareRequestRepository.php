@@ -33,6 +33,6 @@ class HomeCareRequestRepository extends ServiceEntityRepository
 
     public function purgeDecidedBefore(\DateTimeInterface $before): int
     {
-        return $this->createQueryBuilder('r')->delete()->andWhere('r.decidedAt IS NOT NULL')->andWhere('r.decidedAt < :before')->setParameter('before', \Base\Office\Database\Utc::of($before))->getQuery()->execute();
+        return $this->createQueryBuilder('r')->delete()->andWhere('r.decidedAt IS NOT NULL')->andWhere('r.decidedAt < :before')->setParameter('before', \Base\Database\Type\Utc::from($before))->getQuery()->execute();
     }
 }
