@@ -289,3 +289,27 @@ admin:
         unread: '{count, plural, one {conversation non lue} other {conversations non lues}}'
         open: Ouvrir la messagerie
         unavailable: La messagerie n’est pas installée.
+
+# The demonstration accounts (Base\Health\Demo\HealthDemoAccounts): the button, and what the role sees.
+demo:
+    docteur:
+        label: Médecin
+        description: "L'agenda du jour, les patients suivis, les documents et les résultats à leur adresser, la téléconsultation."
+    infirmiere:
+        label: Infirmière
+        description: "Les soins au cabinet, la tournée, les demandes de soins à domicile."
+    kine:
+        label: Kinésithérapeute
+        description: "L'agenda des séances, les patients suivis."
+    secretariat:
+        label: Secrétariat
+        description: "L'agenda de toute l'équipe, les messages du guichet ; envoie des documents sans pouvoir les lire."
+    coordination:
+        label: Coordination
+        description: "L'administration du cabinet : l'équipe, les honoraires, le journal des accès, la conformité."
+    patient:
+        label: Patient
+        description: "Ses rendez-vous, son enfant à charge, un résultat à lire, une téléconsultation, sa messagerie."
+    patiente:
+        label: Patiente
+        description: "Une demande de soins à domicile en attente de réponse."

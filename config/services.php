@@ -26,6 +26,7 @@ return function (ContainerConfigurator $configurator) {
             $src.'/Controller/Admin/',
             $src.'/Admin/',
             $src.'/Mailbox/',
+            $src.'/Demo/',
             $src.'/Transmission/',
             $src.'/HealthBundle.php',
         ]);
@@ -37,6 +38,11 @@ return function (ContainerConfigurator $configurator) {
         $services->load('Base\\Health\\Controller\\Admin\\', $src.'/Controller/Admin/')
             ->tag('controller.service_arguments');
         $services->load('Base\\Health\\Admin\\', $src.'/Admin/');
+    }
+
+    // The demonstration accounts of a practice, when the installed glitchr/omnibase has the demo environment.
+    if (interface_exists('Base\\Demo\\DemoAccountProviderInterface')) {
+        $services->load('Base\\Health\\Demo\\', $src.'/Demo/');
     }
 
     if (interface_exists('Base\\Mailbox\\Recipient\\RecipientProviderInterface')) {

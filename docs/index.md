@@ -110,6 +110,33 @@ declared, and the reminder that the built-in video is not ANS-listed.
 20 4 * * *  bin/console health:purge     # what has outlived health.retention; --dry-run counts
 ```
 
+## Demonstration accounts
+
+In glitchr/omnibase's `demo` environment (its `docs/20-architecture/demo.md`) the sign-in page offers
+one button for each role of a practice. `Base\Health\Demo\HealthDemoAccounts` declares them:
+
+| Identifier | Role | |
+|---|---|---|
+| `docteur`, `infirmiere`, `kine` | group "Praticiens" (`ROLE_PRACTITIONER`) | the agenda, the patients, the documents sent |
+| `secretariat` | group "Secrétariat" (`ROLE_SECRETARY`) | everyone's agenda, the desk's messages; sends documents, does not read them |
+| `coordination` | `ROLE_ADMIN` | the practice's administration: team, fees, access log, compliance |
+| `patient`, `patiente` | group "Patients" | appointments, a dependant, a result, a home care request |
+
+The password is the identifier. The fixtures take the accounts from omnibase's factory and attach
+what makes them worth signing in as - a team member and an agenda, a file and appointments:
+
+```php
+public function __construct(private readonly \Base\Demo\DemoAccountFactory $accounts) {}
+
+$docteur = $this->accounts->account('docteur', $manager);   // created with its group, or the database's
+```
+
+A practice without one of these roles leaves it out (`base.demo.exclude: [docteur, kine]` for a
+nursing practice); a site that renames one declares the same identifier in its own provider. The
+second factor required of the staff (`base.security.two_factor.required_roles`) is lifted for
+these accounts in `demo`, and only there. The labels are `demo.<identifier>.label` and
+`.description` in the `health` domain.
+
 ## Reserved
 
 `Base\Health\Transmission\MssanteTransmitterInterface`: sending to Mon espace santé through MSSanté
