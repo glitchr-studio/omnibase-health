@@ -42,9 +42,6 @@ care_type:
     medication: Préparation et prise des médicaments
     other: Autre soin
 
-security:
-    two_factor_required: La double authentification est obligatoire pour les comptes de l’équipe. Activez-la ci-dessous pour continuer.
-
 contact:
     notice: Ce formulaire n’est pas confidentiel. N’y écrivez <strong>aucune information médicale</strong> — pour cela, utilisez la messagerie de votre espace patient. En cas d’urgence, appelez le 15.
 
@@ -205,7 +202,7 @@ compliance:
     mailbox_encrypt_advice: 'Les messages ne sont pas chiffrés : mailbox.encrypt doit être activé.'
     mailbox_key_advice: 'Aucune clé MAILBOX_KEY utilisable : aucun message ne peut être envoyé. bin/console secrets:set MAILBOX_KEY.'
     staff_2fa: Double authentification de l’équipe
-    staff_2fa_off: 'L’obligation est désactivée (health.staff_two_factor).'
+    staff_2fa_off: 'Rien n’oblige l’équipe à un second facteur : base.security.two_factor.required_roles doit contenir {role} (et postpone: false).'
     staff_2fa_advice: '{count, plural, one {Un compte de l’équipe n’a pas encore de second facteur} other {# comptes de l’équipe n’ont pas encore de second facteur}} : ils y sont renvoyés à leur prochaine connexion.'
     fees: Affichage des honoraires
     fees_advice: 'Aucun tarif affiché pour : {names}.'

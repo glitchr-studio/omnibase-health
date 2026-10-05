@@ -50,7 +50,6 @@ Then a migration: 7 tables prefixed `health_`.
 # config/packages/health.yaml
 health:
     roles: { practitioner: ROLE_PRACTITIONER, secretary: ROLE_SECRETARY, staff: ROLE_STAFF, coordination: ROLE_ADMIN }
-    staff_two_factor: true            # a staff account without a second factor is sent to its security settings
     emergency: { samu: '15', europe: '112', deaf: '114', pharmacy: '3237', oncall: '116 117' }
     retention:                        # months, for health:purge - to set with the practice's DPO
         appointments: 36

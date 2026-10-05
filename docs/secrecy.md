@@ -39,28 +39,47 @@ fail closed without their key.
 
 ## The staff's second factor
 
-`health.staff_two_factor`: a staff account (`ROLE_STAFF`) with no second factor is redirected to
-`/settings` from every page until it has one. Patients choose.
-
-glitchr/omnibase has the same rule for roles since its 3.x of 2026-10-04
-(`base.security.two_factor.required_roles`, see its `docs/20-architecture/account-security.md`), and
-this bundle's own subscriber (`StaffTwoFactorSubscriber`) is to go once the applications use it:
+Whoever reads patients' data signs in with more than a password. The application requires a second
+factor of the staff's role through glitchr/omnibase (its `docs/20-architecture/account-security.md`):
 
 ```yaml
 # config/packages/base.yaml
 base:
     security:
         two_factor: { required_roles: [ROLE_STAFF], postpone: false }
-# config/packages/health.yaml
-health:
-    staff_two_factor: false        # the core's rule alone redirects
 ```
 
-Two differences to know before moving. The core sends the account to its enrolment page
-(`/settings/security-required`), not to `/settings`: a test that asserts the redirect changes with it.
-And `required_roles` is fixed when the container is built, while `health.staff_two_factor` may be an
-environment variable read at run time (`'%env(bool:HEALTH_STAFF_TWO_FACTOR)%'`): a site that lifts the
-obligation in one environment does it with `when@dev` / `when@test` instead.
+A staff account (`ROLE_STAFF`, held directly or through the role hierarchy) with no second factor is
+sent to its enrolment page (`/settings/security-required`) from every page until it has one - no
+"not now" with `postpone: false` - and cannot switch its last factor off afterwards. Patients choose.
+
+The bundle sets nothing itself: without these lines nothing is required, and the compliance widget
+says so ("Double authentification de l'équipe": missing). It then counts the staff accounts that
+have no second factor yet (a warning until each has one).
+
+`required_roles` is fixed when the container is built. A site whose development and test accounts
+have no second factor lifts the obligation per environment - through a parameter, because a list
+given again under `when@dev` is added to the first one, not put in its place:
+
+```yaml
+# config/packages/base.yaml
+base:
+    security:
+        two_factor: { required_roles: '%app.second_factor_roles%', postpone: false }
+
+parameters:
+    app.second_factor_roles: [ROLE_STAFF]
+
+when@dev: &no_second_factor
+    parameters:
+        app.second_factor_roles: []
+when@test: *no_second_factor
+```
+
+(Until omnibase had the rule, the bundle redirected by itself - `StaffTwoFactorSubscriber`, switched
+by `health.staff_two_factor` - to `/settings`. Both are gone: an application that still sets
+`health.staff_two_factor` removes the line, and a test that asserted the redirect to `/settings`
+expects `/settings/security-required`.)
 
 ## The video
 

@@ -28,8 +28,6 @@ class HealthConfiguration extends AbstractBaseConfiguration
                         ->scalarNode('coordination')->defaultValue('ROLE_ADMIN')->end()
                     ->end()
                 ->end()
-                ->booleanNode('staff_two_factor')->defaultTrue()
-                    ->info('A staff account without a second factor is sent to its security settings before anything else.')->end()
                 ->arrayNode('emergency')->addDefaultsIfNotSet()
                     ->info('The permanent banner: who to call.')
                     ->children()
