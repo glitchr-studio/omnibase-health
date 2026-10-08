@@ -4,7 +4,7 @@
     "description": "The health regime on omnibase/office: a practice (multi-professional, nursing, physiotherapy...), its practitioners read from the RPPS, patients and their dependants, home care requests, fees, results sent through the encrypted vault, medical secrecy in who may read what, the emergency banner, GDPR export.",
     "keywords": ["symfony", "omnibase", "health", "maison de santé", "cabinet infirmier", "rpps", "teleconsultation", "patients"],
     "homepage": "https://github.com/glitchr-studio/omnibase-health",
-    "license": "LGPL-3.0-or-later",
+    "license": "MIT",
     "authors": [
         {
             "name": "Marco Meyer",
